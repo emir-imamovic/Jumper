@@ -1,5 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 public class Body {
 	private Point start;
@@ -64,17 +68,49 @@ public class Body {
 	}
 
 	private void move() {
-		if (this.start.getX() + this.width >= maxX && speedX > 0)
+		if (this.start.getX() + this.width + speedX >= maxX && speedX > 0) {
 			speedX = 0;
-		if (this.start.getX() <= minX && speedX < 0)
+			start.setX(maxX - width);
+		}
+		if (this.start.getX() + speedX <= minX && speedX < 0) {
 			speedX = 0;
-		if (this.start.getY() + this.height >= maxY && speedY > 0)
+			start.setX(minX);
+		}
+		if (this.start.getY() + this.height + speedY >= maxY && speedY > 0) {
 			speedY = 0;
-
-		if (this.start.getY() <= 0 && speedY < 0)
+			start.setY(maxY - height);
+		}
+		if (this.start.getY() + speedY <= minY && speedY < 0) {
 			speedY = 0;
-
+			start.setY(minY);
+		}
 		this.start.move(speedX, speedY);
 		this.center.move(speedX, speedY);
+	}
+
+	public void jump() {
+		if (start.getY() == maxY - height) {
+			speedY = -5;
+			Timer t2 = new Timer(350, new JumpHandler());
+			t2.start();
+		}
+
+	}
+
+	private class JumpHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			speedY = 5;
+			Timer t = (Timer) (e.getSource());
+			t.stop();
+		}
+	}
+
+	public void reset() {
+		if (this.start.getX() <= minX) {
+			this.center.setX(maxX + width / 2);
+			this.start.setX(maxX);
+		}
 	}
 }

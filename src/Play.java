@@ -6,10 +6,12 @@ public class Play extends JPanel {
 		JFrame frame = new JFrame("Jumper");
 		frame.setSize(500, 500);
 		frame.setLocation(1000, 200);
-		frame.setContentPane(new GameGraphics(500, 500));
+		GameGraphics gg = new GameGraphics(500, 500);
+		frame.setContentPane(gg);
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-
+		gg.requestFocus(false);
 	}
 }
 // action listener treba da reaguje na promjenu sirine prozora mijenja se
